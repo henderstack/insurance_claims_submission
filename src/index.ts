@@ -137,6 +137,38 @@ function resetCoveredIncidents():void {
     chWaterDamage.checked = false;
 }
 
+function policyAffirm():void {
+    if (policySelect.selectedIndex !== 0) {
+        console.log(selectedPolicy.startDate.toString().substring(0, 10));
+        txtId.value = selectedPolicy.policyId;
+        dtStartDate.value = selectedPolicy.startDate.toString().substring(0, 10);
+        dtEndDate.value = selectedPolicy.startDate.toString().substring(0, 10);
+        nmDeductible.value = selectedPolicy.deductible.toString();
+        nmCoverageLimit.value = selectedPolicy.coverageLimit.toString();
+        resetCoveredIncidents();
+        selectedPolicy.coveredIncidents.forEach(element => {
+            switch (element) {
+                case 'accident':
+                    chAccident.checked = true;
+                    break;
+                case 'theft':
+                    chTheft.checked = true;
+                    break;
+                case 'fire':
+                    chFire.checked = true;
+                    break;
+                case 'water damage':
+                    chWaterDamage.checked = true;
+                    break;
+            }
+        });
+        divNewClaim.className = "";
+        submit.disabled = false;
+    } else {
+        resetPolicyFields();
+    }
+};
+
 function resetPolicyFields():void {
     policySelect.selectedIndex = 0;
     txtId.value = "";
@@ -196,6 +228,20 @@ function getPolicies():void {
     policies = JSON.parse(strPolicies);
 }
 
+function validateClaim():void {
+
+}
+
+function handleNewClaimSubmission(e:SubmitEvent) {
+    e.preventDefault();
+    console.log(dtIncidentDate.valueAsDate);
+    claim.incidentType = selIncidentType.value;
+    claim.incidentDate = dtIncidentDate.valueAsDate;
+    claim.amountClaimed = Number(nmAmountClaimed.value);
+    validateClaim();
+
+}
+
 window.onload = () => {
     console.log("Page has Loaded.");
     setPolicies();
@@ -203,6 +249,7 @@ window.onload = () => {
     loadIncidentTypes();
     selIncidentType.addEventListener("change", selIncidentTypeChange);
     policySelect.addEventListener("change", policyChange);
+    btnSelPolicy.addEventListener("click", policyAffirm);
     // Kinda dumb, but policies were supposed to be a seperate concern, and not in index.ts, but in initial configuration (no time for that)
     getPolicies();
 }
