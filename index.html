@@ -5,6 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Insurance Claims Submission</title>
+    <style>
+        body {
+          font-family: arial;
+        }
+        h3 {
+          font-size: 18px;
+          font-weight: 700;
+          color: #333;
+        }
+        label {
+          font-size: 14px;
+          font-weight: 600;
+          color:#666;
+        }
+        hr {
+          border-top:1px solid blue;
+        }
+        .controlcontainer {
+          display: inline-block;
+          width: 15%;
+          text-align: left;
+          margin: 5px;
+        }
+        .container {
+          display: inline-block;
+          width: 20%;  /* Adjust as needed */
+          text-align: center;
+          margin: 5px;  /* Add some spacing */
+        }
+        .hidden {
+          display:none;
+        }
+        /* Optional: Style the labels */
+        label {
+          display: block;
+        }
+        .claimsView {
+          border: 2px dashed blue;
+        }
+      </style>  
 </head>
 <body>
     <div id="messages" class="hidden"></div>
@@ -37,7 +77,54 @@
           </div>
           <div class="controlcontainer">
             <label for="nmCoverageLimit">Coverage Limit ($)</label><input id="nmCoverageLimit" type="number" placeholder="0.00" disabled />
-          </div> 
+          </div>
+          <label for="selCoveredIncidents">Covered Incidents</label>
+          <div id="selCoveredIncidents" style="border:1px dashed blue;">
+            <div class="container">
+              <label for="chAccident">Accident</label>
+              <input type="checkbox" id="chAccident" name="incidentTypes" value="accident" disabled/>
+            </div>
+            <div class="container">
+              <label for="chTheft">Theft</label>
+              <input type="checkbox" id="chTheft" name="incidentTypes" value="theft" disabled/>
+            </div>
+            <div class="container">
+              <label for="chFire">Fire</label>
+              <input type="checkbox" id="chFire" name="incidentTypes" value="fire" disabled/>
+            </div>
+            <div class="container">
+              <label for="chWaterDamage">Water Damage</label>
+              <input type="checkbox" id="chWaterDamage" name="incidentTypes" value="water damage" disabled/>
+            </div>
+          </div>
+        </div>
+        <div id="claimNew" class="hidden">
+          <h3>New Claim Details</h3>
+          <div class="controlcontainer">
+            <label for="selIncidentType">Incident Type</label>
+              <select id="selIncidentType">
+                <!--<option value="none">--- Select ---</option>
+                <option value="accident">Accident</option>
+                <option value="theft">Theft</option>
+                <option value="fire">Fire</option>
+                <option value="water damage">Water Damage</option>-->
+              </select>
+            </label>
+          </div>
+          <div class="controlcontainer">
+            <label for="dtIncident">Incident Date</label>
+            <input id="dtIncident" type="date" />
+          </div>
+          <div class="controlcontainer">
+            <label for="nmAmountClaimed">Amount Claimed ($)</label>
+            <input id="nmAmountClaimed" type="number" placeholder="Enter Claim Amount" />
+          </div>
+          <hr/>
+          <button id="btnSubmit" type="submit" disabled>Submit Claim</button> || <button id="btnCancel" type="reset">Cancel</button>
+          <button id="btnViewClaims" class="hidden">View Claims</button>
+        </div>
+        <div id="claimsView"class="hidden"></div>
+      </form> 
     </div>
   <script src="dist/index.js"></script>
 </body>
