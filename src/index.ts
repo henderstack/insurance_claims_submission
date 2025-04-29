@@ -228,8 +228,56 @@ function getPolicies():void {
     policies = JSON.parse(strPolicies);
 }
 
-function validateClaim():void {
+function viewAllClaims(e:Event):void {
 
+}
+
+function validateClaim():void {
+    //This is where we validate against the business rules4
+    let today:Date = new Date();
+    let msg: string = "";
+    let isValidDate:boolean = false;
+    if (selectedPolicy.endDate < today){
+        //claim.approved = false;
+        //isValidDate = false;
+        msg += `This policy is expired, so the claim is invalid and cannot be approved.`;
+    } else {
+        isValidDate = true;
+    }
+    let amt:number = claim.amountClaimed - selectedPolicy.deductible;
+    let isValidAmt:boolean = false; 
+    if (amt > selectedPolicy.coverageLimit) {
+        //claim.approved = false;
+        msg = `This claim cannot be approved, as the amount claimed is higher than the coverage and deductible allow.`;
+    } else {
+        isValidAmt = true;
+    }
+    if (amt < selectedPolicy.coverageLimit) {
+        isValidAmt = true;
+        //msg = `This claim is approved, with the following payout amount (minus deductible): $${amt}.`;
+    }
+    let incTypes: string[] = selectedPolicy.coveredIncidents;
+    //let incTypeValid:boolean = false;
+    console.log(incTypes);
+    console.log(claim.incidentType);
+    let incTypeValid:boolean = false;
+    let searchString: string = claim.incidentType;
+    let found: boolean = selectedPolicy.coveredIncidents.includes(searchString);
+    incTypeValid = found;
+    
+    if (isValidDate && isValidAmt && incTypeValid) {
+        claim.approved = true;
+        divMessages.className = "approval";
+        divMessages.innerText = `This claim is approved, with the following payout amount (minus deductible): $${amt}.`;
+    } else {
+        divMessages.className = "disapproval";
+        divMessages.innerText = `This claim is not approved for payout`;
+    }
+ 
+    setClaim(claim);
+    btnViewClaims.className = "";
+    divClaimsView.className = "claimsView";
+    divClaimsView.innerText = JSON.stringify(claims);
 }
 
 function handleNewClaimSubmission(e:SubmitEvent) {
@@ -242,6 +290,15 @@ function handleNewClaimSubmission(e:SubmitEvent) {
 
 }
 
+function resetEverything():void {
+    resetPolicyFields();
+    resetCoveredIncidents();
+    divNewClaim.className = "hidden";
+    selIncidentType.selectedIndex = 0;
+    dtIncidentDate.value = "";
+    nmAmountClaimed.value = "";
+}
+
 window.onload = () => {
     console.log("Page has Loaded.");
     setPolicies();
@@ -250,6 +307,8 @@ window.onload = () => {
     selIncidentType.addEventListener("change", selIncidentTypeChange);
     policySelect.addEventListener("change", policyChange);
     btnSelPolicy.addEventListener("click", policyAffirm);
+    form.addEventListener("submit", handleNewClaimSubmission);
+    cancel.addEventListener("click", resetEverything);
     // Kinda dumb, but policies were supposed to be a seperate concern, and not in index.ts, but in initial configuration (no time for that)
     getPolicies();
 }
