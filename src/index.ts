@@ -126,6 +126,27 @@ function loadIncidentTypes():void {
     })
 }
 
+function setPolicies():void {
+    localStorage.setItem("policies", JSON.stringify(policies));
+}
+
+function setClaim(claim:Claim):void {
+    claims.push(claim);
+    localStorage.setItem("claims", JSON.stringify(claims));
+}
+
+function getClaims():void {
+    let strClaims = localStorage.getItem("claims");
+    if (strClaims === null) strClaims = "";
+    claims = JSON.parse(strClaims);
+}
+
+function getPolicies():void {
+    let strPolicies = localStorage.getItem("policies");
+    if (strPolicies === null) strPolicies = "";
+    policies = JSON.parse(strPolicies);
+}
+
 window.onload = () => {
     console.log("Page has Loaded.");
     loadPolicyNumOpts();
