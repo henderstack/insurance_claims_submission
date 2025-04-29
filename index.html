@@ -7,6 +7,38 @@
     <title>Insurance Claims Submission</title>
 </head>
 <body>
+    <div id="messages" class="hidden"></div>
+    <h3>Claims Submission/Approval</h3>
+    <div id="claimForm">
+        <label for="selPolicyNum">Select Policy Number</label>
+        <select id="selPolicyNum">
+            <!--<option value="none">--- Select ---</option>
+            <option value="POL123">POL123</option>
+            <option value="POL456">POL456</option>
+            <option value="POL789">POL789</option>
+            <option value="POL999">POL999</option>-->
+        </select>
+        <button id="btnSelPolicy">Select Policy</button>
+      </div>
+      <hr />
+      <form id="policyDetail" action="">
+      <div id="policyDetail">
+          <div class="controlcontainer">
+            <label for="txtId">Policy Id</label><input id="txtId" type="text" placeholder="Policy ID" disabled />
+          </div>
+          <div class="controlcontainer">
+            <label for="dtStartDate">Start Date</label><input id="dtStartDate" type="date" disabled />
+          </div>
+          <div class="controlcontainer">
+            <label for="dtEndDate">End Date</label><input id="dtEndDate" type="date" disabled />
+          </div>
+          <div class="controlcontainer">
+            <label for="nmDeductible">Deductible ($)</label><input id="nmDeductible" type="number" placeholder="0.00" disabled />
+          </div>
+          <div class="controlcontainer">
+            <label for="nmCoverageLimit">Coverage Limit ($)</label><input id="nmCoverageLimit" type="number" placeholder="0.00" disabled />
+          </div> 
+    </div>
   <script src="dist/index.js"></script>
 </body>
 </html>
