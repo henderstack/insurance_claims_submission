@@ -307,6 +307,7 @@ window.onload = () => {
     selIncidentType.addEventListener("change", selIncidentTypeChange);
     policySelect.addEventListener("change", policyChange);
     btnSelPolicy.addEventListener("click", policyAffirm);
+    btnViewClaims.addEventListener("click", viewAllClaims);
     form.addEventListener("submit", handleNewClaimSubmission);
     cancel.addEventListener("click", resetEverything);
     // Kinda dumb, but policies were supposed to be a seperate concern, and not in index.ts, but in initial configuration (no time for that)
