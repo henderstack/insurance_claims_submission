@@ -84,4 +84,50 @@ const nmAmountClaimed = document.getElementById('nmAmountClaimed')! as HTMLInput
 
 const divMessages = document.getElementById('messages')! as HTMLDivElement;
 const divNewClaim = document.getElementById('claimNew')! as HTMLDivElement;
-const divClaimsView = document.getElementById('claimsView')! as HTMLDivElement
+const divClaimsView = document.getElementById('claimsView')! as HTMLDivElement;
+
+// Selected Policy
+let selectedPolicy:Policy;
+// New Claim
+let claim:Claim;
+
+interface Opts {
+    text:string;
+    value:string;
+}
+const policyNumOpts: Opts[] = [];
+const incidentTypesOpts: Opts[] = [{text:'--- Select ---', value: "none"},
+                                     {text:'Accident', value: 'accident'},
+                                     {text:'Theft', value:'theft'},
+                                     {text:'Fire', value:'fire'},
+                                     {text: 'Water Damage', value:'water damage'}
+                            ];
+function loadPolicyNumOpts(): void {
+    let selOpt = document.createElement("option");
+    selOpt.text = "--- Select ---";
+    selOpt.value ="none";
+    policySelect.appendChild(selOpt);
+    //policyNumOpts.push({text: '--- Select ---', value: 'none'}); 
+    policies.forEach(element => {
+        policyNumOpts.push({text: element.policyId, value: element.policyId});
+        let opt = document.createElement("option");
+        opt.text = element.policyId;
+        opt.value = element.policyId;
+        policySelect.appendChild(opt);
+    });
+}
+
+function loadIncidentTypes():void {
+    incidentTypesOpts.forEach(element => {
+        let opt = document.createElement("option");
+        opt.text = element.text;
+        opt.value = element.value;
+        selIncidentType.appendChild(opt);
+    })
+}
+
+window.onload = () => {
+    console.log("Page has Loaded.");
+    loadPolicyNumOpts();
+    loadIncidentTypes();
+}
