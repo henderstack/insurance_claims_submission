@@ -1,2 +1,2 @@
 # insurance_claims_submission
-Kata Code Sample for Uplift P3
+Kata Code Sample for P3+Uplift
