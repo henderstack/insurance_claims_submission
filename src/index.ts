@@ -149,6 +149,9 @@ function getPolicies():void {
 
 window.onload = () => {
     console.log("Page has Loaded.");
+    setPolicies();
     loadPolicyNumOpts();
     loadIncidentTypes();
+    // Kinda dumb, but policies were supposed to be a seperate concern, and not in index.ts, but in initial configuration (no time for that)
+    getPolicies();
 }
