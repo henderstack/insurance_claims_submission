@@ -126,6 +126,55 @@ function loadIncidentTypes():void {
     })
 }
 
+function policySelected(policy:Policy) {
+    selectedPolicy = policy;
+}
+
+function resetCoveredIncidents():void {
+    chAccident.checked = false;
+    chTheft.checked = false;
+    chFire.checked = false;
+    chWaterDamage.checked = false;
+}
+
+function resetPolicyFields():void {
+    policySelect.selectedIndex = 0;
+    txtId.value = "";
+    dtStartDate.value = "";
+    dtEndDate.value = "";
+    nmDeductible.value = "";
+    nmCoverageLimit.value = "";
+    divMessages.className = "hidden";
+    resetCoveredIncidents();
+}
+
+function policyChange():void {
+    divClaimsView.className = "hidden";
+    btnViewClaims.className = "hidden";
+    policies.forEach(element => {
+        //console.log(`Policy Deductible ${element.deductible}`);
+        if (policySelect.value === element.policyId) {
+            console.log(`policyID: ${element.policyId}`);
+            policySelected(element);
+        } else if (policySelect.value === "none"){
+            resetPolicyFields();
+        }
+    });
+}
+
+function selIncidentTypeChange():void {
+    console.log(selIncidentType.value);
+    let polId: string = selectedPolicy.policyId;
+    let claimObj:Claim = {
+        policyId: polId,
+        incidentType: selIncidentType.value,
+        incidentDate: new Date(),
+        amountClaimed: 0.00,
+        approved: false
+    }
+    claim = claimObj;
+}
+
 function setPolicies():void {
     localStorage.setItem("policies", JSON.stringify(policies));
 }
@@ -152,6 +201,8 @@ window.onload = () => {
     setPolicies();
     loadPolicyNumOpts();
     loadIncidentTypes();
+    selIncidentType.addEventListener("change", selIncidentTypeChange);
+    policySelect.addEventListener("change", policyChange);
     // Kinda dumb, but policies were supposed to be a seperate concern, and not in index.ts, but in initial configuration (no time for that)
     getPolicies();
 }
